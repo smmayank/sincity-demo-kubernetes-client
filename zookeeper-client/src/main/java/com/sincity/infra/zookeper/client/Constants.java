@@ -16,8 +16,8 @@ public final class Constants {
         return zookeeperUrl;
     });
 
-    public static final String NAMESPACE = "/election";
-
+    public static final String NAMESPACE = "/demo";
+    public static final String NAMESPACE_STRIP_CONSTANT = NAMESPACE + '/';
     public static final String Z_NODE_PREFIX = NAMESPACE + "/c_";
 
 }
