@@ -15,4 +15,9 @@ public final class Constants {
         }
         return zookeeperUrl;
     });
+
+    public static final String NAMESPACE = "/election";
+
+    public static final String Z_NODE_PREFIX = NAMESPACE + "/c_";
+
 }

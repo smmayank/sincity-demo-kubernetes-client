@@ -9,6 +9,12 @@ public class App {
 
     public static void main(String[] args) {
         Client client = new Client();
-        client.watchAndWait();
+        try {
+            client.watch();
+            client.waitForTermination();
+        } catch (ClientException e) {
+            logger.error(e.getMessage(), e);
+        }
+
     }
 }

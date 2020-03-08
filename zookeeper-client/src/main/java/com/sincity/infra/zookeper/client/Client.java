@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.sincity.infra.zookeper.client.Constants.CONNECTION_TIMEOUT;
@@ -19,13 +20,20 @@ public class Client implements Watcher {
     // While connecting assume connected
     private final AtomicBoolean alive = new AtomicBoolean(true);
 
-    public void watchAndWait() throws ClientException {
+    private ZooKeeper zooKeeper;
+
+    public void watch() throws ClientException {
         logger.debug("zoo keeper url {}", ZOO_KEEPER_URL.get());
-        ZooKeeper zooKeeper;
         try {
             zooKeeper = new ZooKeeper(ZOO_KEEPER_URL.get(), CONNECTION_TIMEOUT, this);
         } catch (IOException e) {
             throw new ClientException("Cannot create zookeeper connection", e);
+        }
+    }
+
+    public void waitForTermination() throws ClientException {
+        if (Objects.isNull(zooKeeper)) {
+            throw new ClientException("Client is not initialized call watch first", new IllegalStateException());
         }
         while (alive.get()) {
             synchronized (alive) {
